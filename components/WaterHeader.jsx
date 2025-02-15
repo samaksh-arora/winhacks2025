@@ -1,10 +1,18 @@
+"use client"
+
 export default function WaterHeader({title}) {
 
     return (
-        <div className="relative w-screen h-[50vh]">
-            {title && <h1 className="z-10">{title}</h1>}
+        <div className="relative w-screen h-[100vh]">
+            <div className="absolute h-[40vh] top-0 w-screen" style={{background: "var(--sky)", zIndex: "1000"}}>
+                {title && (
+                    <div className="absolute top-3/4 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2">
+                    <h1 className="text-white text-4xl font-bold">{title}</h1>
+                    </div>
+                )}
+            </div>
             <svg
-                className="absolute top-0 w-full"
+                className="absolute top-[40vh] w-full"
                 viewBox="0 0 1440 320"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
