@@ -22,3 +22,16 @@ def login():
         }), 200
     else:
         return jsonify(result), 401
+@app.route("/api/register", methods=['POST'])
+
+def register():
+    name = request.form['name']
+    email = request.form['email']
+    password = request.form['password']
+
+    token = generate_token()
+    session['token'] = token
+
+    result = create_user(name, email, password)
+
+    return jsonify(result), 200
