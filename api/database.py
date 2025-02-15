@@ -56,11 +56,11 @@ def create_user(name, email, password):
 
 # Checks if the user exists (for login purposes).
 def check_user(email, password):
-    c.execute("SELECT id, password FROM users WHERE email = ?", (email))
-    user_data = c.fetchone()
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
 
-    c.execute("SELECT password FROM users WHERE email = ?", (email,))
-    stored_pwd = c.fetchone()
+    c.execute("SELECT id, password FROM users WHERE email = ?", (email,))
+    user_data = c.fetchone()
 
     conn.close()
 
