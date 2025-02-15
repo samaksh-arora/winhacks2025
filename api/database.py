@@ -32,12 +32,13 @@ def create_db():
     else:
         print("Database already exists")
 
+# Create a hash of a given password.
 def hash_password(password):
     salt = bcrypt.gensalt()
     hashed = bcrypt.hashpw(password.encode("utf-8"), salt)
     return hashed
 
-# In my next JS code, I'm going to be using jsonwebtoken or jwt to check if the user is logged in. That way I can perform various middleware steps (i.e. redirecting users to the login page). How do I set that up in flask as well?
+# Create a user and save it to the database.
 def create_user(name, email, password):
     hashed = hash_password(password)
 
@@ -49,6 +50,7 @@ def create_user(name, email, password):
     conn.commit()
     conn.close()
 
+# Checks if the user exists (for login purposes).
 def check_user(email, password):
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
