@@ -14,15 +14,19 @@ def create_db():
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
                     email TEXT NOT NULL UNIQUE,
-                    password TEXT NOT NULL)""")
+                    password TEXT NOT NULL,
+                    points INTEGER DEFAULT 0)""")
 
         c.execute("""CREATE TABLE IF NOT EXISTS action_types (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
-                    points INTEGER DEFAULT 1)""")
+                    points INTEGER DEFAULT 1,
+                    max_per_day INTEGER DEFAULT -1)""")
         
         c.execute("""CREATE TABLE IF NOT EXISTS actions (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER NOT NULL,
+                    date DATETIME DEFAULT CURRENT_TIMESTAMP,
                     type INTEGER NOT NULL,
                     amount INTEGER DEFAULT 0)""")
         
