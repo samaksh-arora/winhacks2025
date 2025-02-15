@@ -8,6 +8,9 @@ export default function LoginPage() {
     const onSubmit = (e) => {
         e.preventDefault();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> cf60886 (debugging backend)
         fetch('http://localhost:5328/api/login', {
   method: 'POST',
   headers: {
@@ -25,6 +28,7 @@ export default function LoginPage() {
   .catch(error => {
     console.error('Error:', error); // Handle errors
   });
+<<<<<<< HEAD
     }
     return (
 <<<<<<< HEAD
@@ -36,6 +40,8 @@ export default function LoginPage() {
                 password: password
             }
         }).then((res)=>{console.log(res)})
+=======
+>>>>>>> cf60886 (debugging backend)
     }
     return (
 >>>>>>> c85049c (Finished login page UI)
