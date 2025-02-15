@@ -13,7 +13,6 @@ create_db()
 def login():
     data = request.get_json()
     email = data.get("email")
-    print(email)
     password = data.get("password")
     result = check_user(email, password)
     if result["status"] == "success":
@@ -25,6 +24,7 @@ def login():
         }), 200
     else:
         return jsonify(result), 401
+
 @app.route("/api/register", methods=['POST'])
 def register():
     name = request.form['name']
