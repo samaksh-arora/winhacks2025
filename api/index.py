@@ -14,7 +14,7 @@ def login():
 
     result = check_user(email, password)
     if result["status"] == "success":
-        token = generate_token()
+        token = generate_token(app, result["id"])
         session['token'] = token
         return jsonify({
             "message": "Welcome to DRINKUP!",
