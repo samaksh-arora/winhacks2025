@@ -1,12 +1,26 @@
-from flask import Flask
-from database import create_db
+
+from flask import Flask, render_template, request, redirect, url_for, session
+
+app = Flask(__name__)
+app.secret_key ='amherstburgers'
+
+users = {
+    'admin': {'password': 'password123'},
+}
 
 create_db()
-app = Flask(__name__)
 
-@app.route("/api/python")
-def hello_world():
-    return "<p>Hello, World!</p>"
+@app.route("/api/login", methods= ['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
-if __name__ == "__main__":
-    app.run(debug=True)
+        if username in users and users[username]['password'] == [password]:
+            session['username'] = username
+            return f"Welcom to DRINKUP!, {username}", 200
+        else:
+            return "Invalid username or password", 401
+
+    return render_template('login.html')
+@app.route("/api/dashboard")
