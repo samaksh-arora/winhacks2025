@@ -39,10 +39,11 @@ def create_db():
         c.execute("""CREATE TABLE IF NOT EXISTS badges (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
-                    cost INTEGER DEFAULT 2000)""")
+                    cost INTEGER DEFAULT 2000,
+                    icon INTEGER DEFAULT 0)""")
         
         c.execute("""INSERT INTO badges (id, name, cost) VALUES
-                    (1, "Water Wannabe", 2000),
+                    (1, "Water Wannabe", 2000, 1),
                     (2, "Liquid Learner", 4000),
                     (3, "Sipping Sprout", 6000),
                     (4, "Thirsty Turtle", 8000),

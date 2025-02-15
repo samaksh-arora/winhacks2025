@@ -2,6 +2,7 @@
 import WaterTank from "../../components/WaterTank"
 import WaterBottle from "../../components/WaterBottle"
 import { useState, useEffect } from "react";
+import Badge from "../../components/Badge"
 
 export default function DashboardPage() {
     const [fill, setFill] = useState(0);
@@ -17,6 +18,8 @@ export default function DashboardPage() {
             </div>
 
             
+            <WaterTank />
+            <Badge />
         </>
     )
 }
