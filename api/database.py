@@ -35,6 +35,40 @@ def create_db():
                     date DATETIME DEFAULT CURRENT_TIMESTAMP,
                     type INTEGER NOT NULL,
                     amount INTEGER DEFAULT 0)""")
+    
+        c.execute("""CREATE TABLE IF NOT EXISTS badges (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    cost INTEGER DEFAULT 2000)""")
+        
+        c.execute("""INSERT INTO badges (id, name, cost) VALUES
+                    (1, "Water Wannabe", 2000),
+                    (2, "Liquid Learner", 4000),
+                    (3, "Sipping Sprout", 6000),
+                    (4, "Thirsty Turtle", 8000),
+                    (5, "Aqua Advocate", 10000),
+                    (6, "Hydration Hero", 12000),
+                    (7, "Fluid Fanatic", 14000),
+                    (8, "H2-Oh Yeah!", 16000),
+                    (9, "Senior Sipper", 18000),
+                    (10, "Quench Quest Champion", 20000),
+                    (11, "Water Wizard", 22000),
+                    (12, "Hydro Homie", 24000),
+                    (13, "Sip Supreme", 26000),
+                    (14, "Hydration Guru", 28000),
+                    (15, "Aqua Ace", 30000),
+                    (16, "Liquid Legend", 32000),
+                    (17, "Elixir Elite", 34000),
+                    (18, "Water Warrior", 36000),
+                    (19, "Drip Dynamo", 38000),
+                    (20, "Fluid Fiend", 40000),
+                    (21, "Sustaining Sipper", 45000),
+                    (22, "Moisture Maven", 50000),
+                    (23, "Pristine Purifier", 60000),
+                    (24, "Vivacious Vessel", 70000),
+                    (25, "Sip Savant", 80000),
+                    (26, "Harmonic Hydrator", 90000),
+                    (27, "Master of Moisture", 100000)""")
         
         conn.commit()
         print("Database created")
