@@ -35,6 +35,9 @@ export default function Navbar() {
       <div className="flex justify-between items-center">
         <div className="text-white font-bold"><img src="logo.png" className='w-[4rem] h-[4rem]'></img></div>
         <ul className="flex space-x-4">
+          <li className="text-white"><Link href="/register"><button className='bg-[var(--background)] p-5 rounded-xl'>Register</button></Link></li>
+        </ul>
+        <ul className="flex space-x-4">
           <li className="text-white"><Link href="/login"><button className='bg-[var(--background)] p-5 rounded-xl'>Login</button></Link></li>
         </ul>
       </div>
