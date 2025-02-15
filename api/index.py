@@ -22,8 +22,8 @@ def login():
         }), 200
     else:
         return jsonify(result), 401
-@app.route("/api/register", methods=['POST'])
 
+@app.route("/api/register", methods=['POST'])
 def register():
     name = request.form['name']
     email = request.form['email']
@@ -35,3 +35,14 @@ def register():
     result = create_user(name, email, password)
 
     return jsonify(result), 200
+
+@app.route("/api/drink", methods=['POST'])
+def drink():
+    data = request.get_json()
+    amount = data.get("amount")
+    token_data = decode_token(app, session['token'])
+    if token_data["status"] == "error":
+        return jsonify(token_data), 403
+
+    return jsonify(drink_water(token_data["user_id"], amount)), 
+    
