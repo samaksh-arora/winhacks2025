@@ -104,8 +104,11 @@ def increase_points(user_id, amount):
 
 def drink_water(user_id, amount):
     minutes = get_minutes_since_last_action(user_id)
-    if minutes < 5:
+    if minutes < 5 and minutes != -1:
         return {"status": "error", "message": "Woah there, pace yourself! You shouldn't drink too much water at a time."}
 
     c.execute("INSERT INTO actions (user_id, type, amount) VALUES (?, 1, ?)", (user_id, amount))
     conn.commit()
+
+    increase_points(user_id, amount)
+    return {"status": "success", "message": "You drank up!"}
