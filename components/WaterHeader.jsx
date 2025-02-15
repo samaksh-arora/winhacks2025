@@ -3,8 +3,8 @@
 export default function WaterHeader({title}) {
 
     return (
-        <div className="relative w-screen h-[100vh]">
-            <div className="absolute h-[40vh] top-0 w-screen" style={{background: "var(--sky)", zIndex: "1000"}}>
+        <div className="hero relative w-screen h-[100vh]">
+            <div className="absolute h-[40vh] top-0 w-screen" style={{background: "var(--sky"}}>
                 {title && (
                     <div className="absolute top-3/4 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2">
                     <h1 className="text-white text-4xl font-bold">{title}</h1>
