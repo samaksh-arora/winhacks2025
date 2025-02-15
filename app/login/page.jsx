@@ -1,16 +1,25 @@
 "use client"
 
-import {useState} from 'react'
+import {useState} from 'react';
+import {useRouter} from 'next/navigation';
 
 export default function LoginPage() {
     const [email,setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const router = useRouter();
     const onSubmit = (e) => {
         e.preventDefault();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> cf60886 (debugging backend)
+=======
+
+    router.push('/dashboard');
+    router.refresh();
+
+>>>>>>> c7e0584 (login and register todo)
         fetch('http://localhost:5328/api/login', {
   method: 'POST',
   headers: {
@@ -29,6 +38,10 @@ export default function LoginPage() {
     console.error('Error:', error); // Handle errors
   });
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+  
+>>>>>>> c7e0584 (login and register todo)
     }
     return (
 <<<<<<< HEAD
@@ -52,10 +65,10 @@ export default function LoginPage() {
                             <h1 className="text-[3rem] m-2 textShadow">Login</h1>
                         </div>
                         <label className="textShadow text-xl">Email</label>
-                        <input type="text" className="border-2 border-black text-xl text-black" value={email} onChange={(e)=>(setEmail(e.target.value))}></input>
+                        <input type="text" className="border-2 border-black text-xl text-black" value={email} onChange={(e)=>(setEmail(e.target.value))} required></input>
                         <br></br>
                         <label className="textShadow text-xl">Password</label>
-                        <input type="password" className="border-2 border-black text-xl text-black" onChange={(e)=>(setPassword(e.target.value))}></input>
+                        <input type="password" className="border-2 border-black text-xl text-black" onChange={(e)=>(setPassword(e.target.value))} required></input>
                         <br></br>
                         <br></br>
                         <div className="flex justify-center">
