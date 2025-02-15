@@ -1,15 +1,17 @@
 import os
 import bcrypt
 import sqlite3
+import datetime
 
 DATABASE = "./database.sqlite3"
+conn = None
+c = None
 
 def create_db():
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
     if not os.path.exists(DATABASE):
         print(f"Creating database at location {DATABASE}")
-        conn = sqlite3.connect(DATABASE)
-        c = conn.cursor()
-
         c.execute("""CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
@@ -34,7 +36,6 @@ def create_db():
                     amount INTEGER DEFAULT 0)""")
         
         conn.commit()
-        conn.close()
         print("Database created")
     else:
         print("Database already exists")
@@ -49,23 +50,14 @@ def hash_password(password):
 def create_user(name, email, password):
     hashed = hash_password(password)
 
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-
     c.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, hashed))
 
     conn.commit()
-    conn.close()
 
 # Checks if the user exists (for login purposes).
 def check_user(email, password):
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-
     c.execute("SELECT id, password FROM users WHERE email = ?", (email))
     user_data = c.fetchone()
-
-    conn.close()
 
     if user_data is None:
         return {"status": "error", "message": "User does not exist", "id": -1}
@@ -78,11 +70,42 @@ def check_user(email, password):
     else:
         return {"status": "error", "message": "Incorrect password", "id": id}
 
+def get_minutes_since_last_action(user_id, action_type):
+    c.execute("SELECT date FROM actions WHERE user_id = ? AND type = ?", (user_id, action_type))
+    latest_action = c.fetchone()
+
+    if latest_action:
+        date = datetime.datetime.strptime(latest_action[0], "%Y-%m-%d %H:%M:%S")
+        now = datetime.datetime.now(datetime.timezone.utc)
+        diff = now - date
+        return diff.total_seconds() // 60
+
+    return -1
+
+def water_to_points(amount):
+    c.execute("SELECT points FROM action_types WHERE id=1")
+    action = c.fetchone()
+
+    if action is None:
+        return amount # Default to 1 point per amount.
+
+    return amount * int(action[0])
+
+def increase_points(user_id, amount):
+    c.execute("SELECT points FROM users WHERE id=?", (user_id,))
+    points = c.fetchone()
+
+    if points is None:
+        return {"status": "error", "message": "Invalid user", "relogin": True}
+    
+    points = int(points[0]) + water_to_points(amount)
+    c.execute("UPDATE users SET points=? WHERE id=?", (points, user_id))
+    conn.commit()
+
 def drink_water(user_id, amount):
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
+    minutes = get_minutes_since_last_action(user_id)
+    if minutes < 5:
+        return {"status": "error", "message": "Woah there, pace yourself! You shouldn't drink too much water at a time."}
 
     c.execute("INSERT INTO actions (user_id, type, amount) VALUES (?, 1, ?)", (user_id, amount))
-
     conn.commit()
-    conn.close()
