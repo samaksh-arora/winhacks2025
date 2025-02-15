@@ -1,5 +1,6 @@
-
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, jsonify, request, redirect, url_for, session
+from database import *
+from auth import *
 
 app = Flask(__name__)
 app.secret_key ='amherstburgers'
@@ -10,17 +11,18 @@ users = {
 
 create_db()
 
-@app.route("/api/login", methods= ['GET', 'POST'])
+@app.route("/api/login", methods=['POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    email = request.form['email']
+    password = request.form['password']
 
-        if username in users and users[username]['password'] == [password]:
-            session['username'] = username
-            return f"Welcom to DRINKUP!, {username}", 200
-        else:
-            return "Invalid username or password", 401
-
-    return render_template('login.html')
-@app.route("/api/dashboard")
+    result = check_user(email, password)
+    if result["status"] == "success":
+        token = generate_token()
+        session['token'] = token
+        return jsonify({
+            "message": "Welcome to DRINKUP!",
+            "token": token
+        }), 200
+    else:
+        return jsonify(result), 401
