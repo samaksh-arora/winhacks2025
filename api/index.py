@@ -5,10 +5,6 @@ from auth import *
 app = Flask(__name__)
 app.secret_key ='amherstburgers'
 
-users = {
-    'admin': {'password': 'password123'},
-}
-
 create_db()
 
 @app.route("/api/login", methods=['POST'])
