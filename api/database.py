@@ -1,4 +1,5 @@
 import os
+import bcrypt
 import sqlite3
 
 DATABASE = "./database.sqlite3"
@@ -30,3 +31,39 @@ def create_db():
         print("Database created")
     else:
         print("Database already exists")
+
+def hash_password(password):
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode("utf-8"), salt)
+    return hashed
+
+# In my next JS code, I'm going to be using jsonwebtoken or jwt to check if the user is logged in. That way I can perform various middleware steps (i.e. redirecting users to the login page). How do I set that up in flask as well?
+def create_user(name, email, password):
+    hashed = hash_password(password)
+
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+
+    c.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, hashed))
+
+    conn.commit()
+    conn.close()
+
+def check_user(email, password):
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+
+    c.execute("SELECT password FROM users WHERE email = ?", (email))
+    stored_pwd = c.fetchone()
+
+    conn.close()
+
+    if stored_pwd is None:
+        return {"status": "error", "message": "User does not exist"}
+    
+    stored_pwd = stored_pwd[0]
+
+    if bcrypt.checkpw(password.encode('utf-8'), stored_pwd):
+        return {"status": "success", "message": "Login successful"}
+    else:
+        return {"status": "error", "message": "Incorrect password"}
