@@ -32,20 +32,16 @@ const TankGraphic = ({ fillLevel }) => {
     );
   };
 
-export default function WaterTank() {
-    const [fill, setFill] = useState(30);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setFill((prev) => (prev >= 100 ? 0 : prev + 10));
-        }, 2000);
-        return () => clearInterval(interval);
-    }, []);
+export default function WaterTank({fill,multiplier}) {
 
     return (
         <div className="flex flex-col justify-center items-center h-screen">
+            <h2 className="text-2xl text-white">{1000*multiplier}ml</h2>
             <TankGraphic fillLevel={fill} />
-            <h2 className="text-2xl text-white">400 points</h2>
+            <div className="flex justify-center items-center">
+                <h2 className="text-2xl text-white pr-2">400 points</h2>
+                <h2 className="text-2xl text-red-500">x{multiplier}</h2>
+            </div>
         </div>
     );
 }
