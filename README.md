@@ -43,6 +43,7 @@ npx create-next-app nextjs-flask --example "https://github.com/vercel/examples/t
 First, install the dependencies:
 
 ```bash
+curl -fsSL https://get.pnpm.io/install.sh | sh - # installs pnpm
 npm install
 # or
 yarn
