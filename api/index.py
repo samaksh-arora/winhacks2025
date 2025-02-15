@@ -25,7 +25,6 @@ def login():
         }), 200
     else:
         return jsonify(result), 401
-
 @app.route("/api/register", methods=['POST'])
 def register():
     name = request.form['name']

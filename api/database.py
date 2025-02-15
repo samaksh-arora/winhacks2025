@@ -59,8 +59,18 @@ def check_user(email, password):
     c.execute("SELECT id, password FROM users WHERE email = ?", (email))
     user_data = c.fetchone()
 
+<<<<<<< HEAD
     if user_data is None:
         return {"status": "error", "message": "User does not exist", "id": -1}
+=======
+    c.execute("SELECT password FROM users WHERE email = ?", (email,))
+    stored_pwd = c.fetchone()
+
+    conn.close()
+
+    if stored_pwd is None:
+        return {"status": "error", "message": "User does not exist"}
+>>>>>>> af37def (Finished login page)
     
     id = user_data[0]
     stored_pwd = user_data[1]
