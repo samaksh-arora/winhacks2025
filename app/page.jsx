@@ -1,10 +1,9 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import WaterHeader from "../components/WaterHeader"
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Let's go!</h1>
+    <main className="flex flex-col place-center justify-between">
+      <WaterHeader title="Let's go!" />
     </main>
   )
 }
