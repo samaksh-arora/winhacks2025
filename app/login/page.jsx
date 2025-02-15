@@ -7,13 +7,23 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const onSubmit = (e) => {
         e.preventDefault();
-        fetch("localhost:5328/api/login",{
-            method: "POST",
-            body: {
-                email: email,
-                password: password
-            }
-        }).then((res)=>{console.log(res)})
+        fetch('http://localhost:5328/api/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: email,
+    password: password,
+  })
+})
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error:', error); // Handle errors
+  });
     }
     return (
         <form onSubmit={onSubmit}>
