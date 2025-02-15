@@ -23,7 +23,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full p-4 transition-all duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 w-full p-3 transition-all duration-300 ease-in-out ${
         isScrolled ? 'bg-[var(--background)]' : 'bg-[var(--sky)]'
       }`}
         style={{ zIndex: "1000"}}>
