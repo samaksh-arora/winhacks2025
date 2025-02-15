@@ -7,6 +7,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const onSubmit = (e) => {
         e.preventDefault();
+<<<<<<< HEAD
         fetch('http://localhost:5328/api/login', {
   method: 'POST',
   headers: {
@@ -27,6 +28,17 @@ export default function LoginPage() {
     }
     return (
 <<<<<<< HEAD
+=======
+        fetch("localhost:5328/api/login",{
+            method: "POST",
+            body: {
+                email: email,
+                password: password
+            }
+        }).then((res)=>{console.log(res)})
+    }
+    return (
+>>>>>>> c85049c (Finished login page UI)
         <form onSubmit={onSubmit}>
             <div className="text-white flex items-center justify-center min-h-screen drop-shadow-xl">
                 <div className="bg-[var(--sky)] flex flex-col p-10 border-4 border-black rounded-lg">
@@ -44,6 +56,7 @@ export default function LoginPage() {
                             <button className='bg-[var(--background)] rounded-xl p-3'>Submit</button>
                         </div>
                 </div>
+<<<<<<< HEAD
             </div>
         </form>
 =======
@@ -58,5 +71,9 @@ export default function LoginPage() {
             
         </div>
 >>>>>>> 35adb1a (Started basic login page)
+=======
+            </div>
+        </form>
+>>>>>>> c85049c (Finished login page UI)
     )
 }
