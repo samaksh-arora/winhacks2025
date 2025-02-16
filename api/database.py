@@ -162,3 +162,10 @@ def get_badges():
     
     badge_list = [{"id": row[0], "name": row[1], "cost": row[2], "icon": row[3]} for row in badges]
     return badge_list
+
+def get_leaderboard():
+    c.execute("SELECT id, name, points FROM users ORDER BY points DESC")
+    users = c.fetchall()
+
+    user_list = [{"id": row[0], "name": row[1], "points": row[2]} for row in users]
+    return user_list

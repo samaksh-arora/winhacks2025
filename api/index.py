@@ -53,3 +53,8 @@ def drink():
 def badges():
     badges = get_badges()
     return jsonify({"badges": badges})
+
+@app.route('/api/leaderboard', methods=['GET'])
+def leaderboard():
+    leaderboard = get_leaderboard()
+    return jsonify({"leaderboard": leaderboard})
