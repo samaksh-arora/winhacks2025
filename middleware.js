@@ -36,10 +36,6 @@ async function isTokenValid(request) {
 
 export const config = {
   matcher: [
-<<<<<<< HEAD
     '/',
-=======
-    
->>>>>>> dcf77d7 (added dynamic points, multiplier, currentMl)
   ]
 };

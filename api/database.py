@@ -24,17 +24,17 @@ def create_db():
                     currentMl INTEGER DEFAULT 0,
                     multiplier INTEGER DEFAULT 1)""")
         
-        c.execute("""INSERT INTO users VALUES (1, "admin", "admin@gmail.com", "epicness", 50000)""")
-        c.execute("""INSERT INTO users VALUES (2, "john_doe", "john.doe@example.com", "password123", 350)""")
-        c.execute("""INSERT INTO users VALUES (3, "sarah_lee", "sarah.lee@example.com", "letmein2025", 1200)""")
-        c.execute("""INSERT INTO users VALUES (4, "mike_smith", "mike.smith123@example.com", "hello1234", 250)""")
-        c.execute("""INSERT INTO users VALUES (5, "lucy_hamilton", "lucy.hamilton@example.com", "ilovecats!", 1500)""")
-        c.execute("""INSERT INTO users VALUES (6, "paul_king", "paul.king789@example.com", "securepass", 500)""")
-        c.execute("""INSERT INTO users VALUES (7, "jane_doe", "jane.doe@example.com", "mysecretpassword", 200)""")
-        c.execute("""INSERT INTO users VALUES (8, "emily_williams", "emily.williams@example.com", "12345678", 1750)""")
-        c.execute("""INSERT INTO users VALUES (9, "robert_brown", "robert.brown@example.com", "qwertyuiop", 950)""")
-        c.execute("""INSERT INTO users VALUES (10, "alice_martin", "alice.martin@example.com", "password1", 300)""")
-        c.execute("""INSERT INTO users VALUES (11, "charles_davis", "charles.davis@example.com", "charles2025", 800)""")
+        c.execute("""INSERT INTO users VALUES (1, "admin", "admin@gmail.com", "epicness", 50000, 300, 5)""")
+        c.execute("""INSERT INTO users VALUES (2, "john_doe", "john.doe@example.com", "password123", 350, 300, 5)""")
+        c.execute("""INSERT INTO users VALUES (3, "sarah_lee", "sarah.lee@example.com", "letmein2025", 1200, 300, 5)""")
+        c.execute("""INSERT INTO users VALUES (4, "mike_smith", "mike.smith123@example.com", "hello1234", 250, 300, 5)""")
+        c.execute("""INSERT INTO users VALUES (5, "lucy_hamilton", "lucy.hamilton@example.com", "ilovecats!", 1500, 300, 5)""")
+        c.execute("""INSERT INTO users VALUES (6, "paul_king", "paul.king789@example.com", "securepass", 500, 300, 5)""")
+        c.execute("""INSERT INTO users VALUES (7, "jane_doe", "jane.doe@example.com", "mysecretpassword", 200, 300, 5)""")
+        c.execute("""INSERT INTO users VALUES (8, "emily_williams", "emily.williams@example.com", "12345678", 1750, 300, 5)""")
+        c.execute("""INSERT INTO users VALUES (9, "robert_brown", "robert.brown@example.com", "qwertyuiop", 950, 300, 5)""")
+        c.execute("""INSERT INTO users VALUES (10, "alice_martin", "alice.martin@example.com", "password1", 300, 300, 5)""")
+        c.execute("""INSERT INTO users VALUES (11, "charles_davis", "charles.davis@example.com", "charles2025", 800, 300, 5)""")
 
         c.execute("""CREATE TABLE IF NOT EXISTS action_types (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
