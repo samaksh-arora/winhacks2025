@@ -6,7 +6,7 @@ from auth import *
 
 app = Flask(__name__)
 app.secret_key ='amherstburgers'
-cors = CORS(app)
+cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000", "supports_credentials": True}})
 
 create_db()
 
@@ -26,10 +26,9 @@ def login():
         }), 200)
         response.set_cookie(
             "token", 
-            token, 
-            httponly=True, 
-            secure=True,  # Set to False if using HTTP (not recommended)
-            samesite="Lax",
+            token,
+            samesite="None",
+            secure=True
         )
 
         return response
@@ -46,23 +45,25 @@ def register():
     result = create_user(name, email, password)
     token = generate_token(app, result["id"])
     session['token'] = token
+    result['token'] = token
 
     response = make_response(jsonify(result), 200)
     response.set_cookie(
         "token", 
-        token, 
-        httponly=True, 
-        secure=True,  # Set to False if using HTTP (not recommended)
-        samesite="Lax",
+        token,
+        samesite="None",
+        secure=True
     )
 
     return response
 
 @app.route("/api/get-points",methods=['GET'])
 def getPoints():
-    if 'token' not in session:
+    token = request.cookies.get('token')
+
+    if token is None:
         return jsonify({"status": "error", "message": "Not logged in"}), 401
-    token_data = decode_token(app, session['token'])
+    token_data = decode_token(app, token)
     if token_data["status"] == "error":
         return jsonify(token_data), 403
 
@@ -70,13 +71,24 @@ def getPoints():
 
 @app.route("/api/drink", methods=['POST'])
 def drink():
-    if 'token' not in session:
-        return jsonify({"status": "error", "message": "Can't drink, not logged in"}), 401
+    token = request.cookies.get('token')
+    if token is None:
+        return jsonify({"status": "error", "message": "Not logged in"}), 401
+    
     data = request.get_json()
     amount = data.get("amount")
-    token_data = decode_token(app, session['token'])
+    token_data = decode_token(app, token)
     if token_data["status"] == "error":
         return jsonify(token_data), 403
 
-    return jsonify(drink_water(token_data["user_id"], amount)), 
+    return jsonify(drink_water(token_data["user_id"], amount)), 200
     
+@app.route('/api/badges', methods=['GET'])
+def badges():
+    badges = get_badges()
+    return jsonify({"badges": badges})
+
+@app.route('/api/leaderboard', methods=['GET'])
+def leaderboard():
+    leaderboard = get_leaderboard()
+    return jsonify({"leaderboard": leaderboard})

@@ -12,16 +12,17 @@ export default function DashboardPage() {
     useEffect(()=>{
         fetch("http://localhost:5328/api/get-points",{
             method: "GET",
+            credentials: 'include',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
               }
         }).then(response => response.json())
         .then(data => {
             if (data.status !== "success") {
                 // Handle error.
             }
-            console.log("Points from backend: " + data.points)
             setPoints(data.points);
+            setFill(data.points / (1000 * multiplier));
         })
     })
     return (

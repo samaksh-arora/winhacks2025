@@ -111,7 +111,7 @@ def check_user(email, password):
     else:
         return {"status": "error", "message": "Incorrect password", "id": id}
 
-def get_minutes_since_last_action(user_id, action_type):
+def get_minutes_since_last_action(user_id, action_type = 1):
     c.execute("SELECT date FROM actions WHERE user_id = ? AND type = ?", (user_id, action_type))
     latest_action = c.fetchone()
 

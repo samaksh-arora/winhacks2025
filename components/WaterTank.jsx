@@ -32,7 +32,7 @@ const TankGraphic = ({ fillLevel }) => {
     );
   };
 
-export default function WaterTank({fill,multiplier, points}) {
+export default function WaterTank({fill, multiplier, points}) {
 
     return (
         <div className="flex flex-col justify-center items-center h-screen">

@@ -12,6 +12,7 @@ export default function WaterBottle({fill, setFill, multiplier, setMultiplier, s
     function addPoints(pts){
         fetch("http://localhost:5328/api/drink",{
             method: "POST",
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
               },
@@ -21,7 +22,7 @@ export default function WaterBottle({fill, setFill, multiplier, setMultiplier, s
         }).then(response=>response.json())
         .then(data=>{
             console.log(data.message)
-        })
+        });
     }
     function addWater(ml){
         const percent = fill+((ml/(1000*multiplier))*100)
