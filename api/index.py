@@ -47,5 +47,9 @@ def drink():
     if token_data["status"] == "error":
         return jsonify(token_data), 403
 
-    return jsonify(drink_water(token_data["user_id"], amount)), 
-    
+    return jsonify(drink_water(token_data["user_id"], amount))
+
+@app.route('/api/badges', methods=['GET'])
+def badges():
+    badges = get_badges()
+    return jsonify({"badges": badges})

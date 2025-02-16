@@ -19,6 +19,8 @@ def create_db():
                     email TEXT NOT NULL UNIQUE,
                     password TEXT NOT NULL,
                     points INTEGER DEFAULT 0)""")
+        
+        c.execute("""INSERT INTO users VALUES (1, "admin", "admin@gmail.com", "epicness", 50000)""")
 
         c.execute("""CREATE TABLE IF NOT EXISTS action_types (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,6 +37,41 @@ def create_db():
                     date DATETIME DEFAULT CURRENT_TIMESTAMP,
                     type INTEGER NOT NULL,
                     amount INTEGER DEFAULT 0)""")
+    
+        c.execute("""CREATE TABLE IF NOT EXISTS badges (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    cost INTEGER DEFAULT 2000,
+                    icon INTEGER DEFAULT 0)""")
+        
+        c.execute("""INSERT INTO badges (id, name, cost, icon) VALUES
+                    (1, "Water Wannabe", 2000, 1),
+                    (2, "Liquid Learner", 4000, 0),
+                    (3, "Sipping Sprout", 6000, 0),
+                    (4, "Thirsty Turtle", 8000, 0),
+                    (5, "Aqua Advocate", 10000, 3),
+                    (6, "Hydration Hero", 12000, 4),
+                    (7, "Fluid Fanatic", 14000, 3),
+                    (8, "H2-Oh Yeah!", 16000, 6),
+                    (9, "Senior Sipper", 18000, 5),
+                    (10, "Quench Quest Champion", 20000, 4),
+                    (11, "Water Wizard", 22000, 7),
+                    (12, "Hydro Homie", 24000, 3),
+                    (13, "Sip Supreme", 26000, 8),
+                    (14, "Hydration Guru", 28000, 4),
+                    (15, "Aqua Ace", 30000, 5),
+                    (16, "Liquid Legend", 32000, 2),
+                    (17, "Elixir Elite", 34000, 2),
+                    (18, "Water Warrior", 36000, 5),
+                    (19, "Drip Dynamo", 38000, 8),
+                    (20, "Fluid Fiend", 40000, 7),
+                    (21, "Sustaining Sipper", 45000, 8),
+                    (22, "Moisture Maven", 50000, 9),
+                    (23, "Pristine Purifier", 60000, 9),
+                    (24, "Vivacious Vessel", 70000, 9),
+                    (25, "Sip Savant", 80000, 9),
+                    (26, "Harmonic Hydrator", 90000, 9),
+                    (27, "Master of Moisture", 100000, 10)""")
         
         conn.commit()
         print("Database created")
@@ -118,3 +155,10 @@ def drink_water(user_id, amount):
 
     points = increase_points(user_id, amount)
     return {"status": "success", "message": "You drank up!", "points": points}
+
+def get_badges():
+    c.execute("SELECT * FROM badges")
+    badges = c.fetchall()
+    
+    badge_list = [{"id": row[0], "name": row[1], "cost": row[2], "icon": row[3]} for row in badges]
+    return badge_list
