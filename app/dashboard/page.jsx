@@ -8,11 +8,23 @@ export default function DashboardPage() {
     const [fill, setFill] = useState(0);
     const [multiplier, setMultiplier] = useState(1);
     const [points, setPoints] = useState(0);
+
+    useEffect(()=>{
+        fetch("http://localhost:5328/api/get-points",{
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+              }
+        }).then(response => response.json())
+        .then(data=>{
+            console.log("Points from backend: " + data.points)
+            setPoints(data.points);
+        })
+    })
     return (
         <>
-            <h1 className="text-white text-center text-3xl py-2">My Dashboard</h1>
             <div className="grid grid-cols-3 gap-4 justify-items-center">
-                <WaterTank fill={fill} multiplier={multiplier}/>
+                <WaterTank fill={fill} multiplier={multiplier} points={points}/>
                 <BadgeList points={points} />
                 <WaterBottle fill={fill} setFill={setFill} multiplier={multiplier} setMultiplier={setMultiplier}/>
             </div>

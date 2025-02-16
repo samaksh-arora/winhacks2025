@@ -9,19 +9,37 @@ export default function WaterBottle({fill, setFill, multiplier, setMultiplier, s
         "Stanley (1200ml)": "stanley.png",
         "Custom (Enter ml)": "custom.png"
     }
+    function addPoints(pts){
+        fetch("http://localhost:5328/api/drink",{
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+              },
+              body:JSON.stringify({
+                amount:pts
+              })
+        }).then(response=>response.json())
+        .then(data=>{
+            console.log(data.message)
+        })
+    }
     function addWater(ml){
         const percent = fill+((ml/(1000*multiplier))*100)
         if(percent>=100){
+            var existingMl = (fill/100)*1000*multiplier
+            var originalModifierPts = ((1000*multiplier) - existingMl)*multiplier
             setMultiplier((prev)=>(prev+1));
             setFill(100);
+            const remainingMl = (ml - ((1000*multiplier) - existingMl))
             setTimeout(() => {
-                const remainingMl = (ml - (1000*(multiplier)))
-                setFill((200/(1000*(multiplier+1)))*100)
+                setFill((remainingMl/(1000*(multiplier+1)))*100)
             }, "1500");
-            
+            const pts = originalModifierPts + (remainingMl * (multiplier + 1))
+            addPoints(pts)
         }
         else{
             setFill(percent);
+            addPoints(ml*multiplier)
         }
     }
     const onSubmit = (e) => {
@@ -34,7 +52,6 @@ export default function WaterBottle({fill, setFill, multiplier, setMultiplier, s
         else{
             ml = customMl;
         }
-        console.log(ml);
         addWater(ml);
     }
     return(

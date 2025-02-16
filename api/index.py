@@ -1,13 +1,16 @@
 from flask import Flask, jsonify, request, redirect, url_for, session
 from flask_cors import CORS
 from database import *
+from flask_cors import CORS
 from auth import *
 
 app = Flask(__name__)
 app.secret_key ='amherstburgers'
-cors = CORS(app) # allow CORS for all domains on all routes.
+cors = CORS(app)
 
 create_db()
+
+staticPoints = 0
 
 @app.route("/api/login", methods=['POST'])
 def login():
@@ -39,22 +42,20 @@ def register():
 
     return jsonify(result), 200
 
+@app.route("/api/get-points",methods=['GET'])
+def getPoints():
+    return jsonify({"status": "success", "message": "You drank up!", "points": staticPoints})
+
 @app.route("/api/drink", methods=['POST'])
 def drink():
+    global staticPoints
     data = request.get_json()
     amount = data.get("amount")
-    token_data = decode_token(app, session['token'])
-    if token_data["status"] == "error":
-        return jsonify(token_data), 403
+    staticPoints = staticPoints + amount
+    return jsonify({"status": "success", "message": "You drank up!", "points": staticPoints})
+    # token_data = decode_token(app, session['token'])
+    # if token_data["status"] == "error":
+    #     return jsonify(token_data), 403
 
-    return jsonify(drink_water(token_data["user_id"], amount))
-
-@app.route('/api/badges', methods=['GET'])
-def badges():
-    badges = get_badges()
-    return jsonify({"badges": badges})
-
-@app.route('/api/leaderboard', methods=['GET'])
-def leaderboard():
-    leaderboard = get_leaderboard()
-    return jsonify({"leaderboard": leaderboard})
+    # return jsonify(drink_water(token_data["user_id"], amount)), 
+    
