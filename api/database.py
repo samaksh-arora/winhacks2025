@@ -155,3 +155,10 @@ def drink_water(user_id, amount):
 
     points = increase_points(user_id, amount)
     return {"status": "success", "message": "You drank up!", "points": points}
+
+def get_badges():
+    c.execute("SELECT * FROM badges")
+    badges = c.fetchall()
+    
+    badge_list = [{"id": row[0], "name": row[1], "cost": row[2], "icon": row[3]} for row in badges]
+    return badge_list
