@@ -5,8 +5,8 @@ export default function WaterHeader({title}) {
 
     return (
         <div className="hero relative w-screen h-[100vh] lg:h-[70vh]">
-            <div className="absolute h-[60vh] lg:h-[40vh] top-0 w-screen" style={{background: "var(--sky"}}>
-                <Image src="/logo-time.png" className="mx-auto mt-[2vh]" style={{zIndex: 10000}} width={512} height={400} alt="logo" />
+            <div className="absolute h-[60vh] lg:h-[40vh] top-[5vh] w-screen" style={{background: "var(--sky"}}>
+                <Image src="/logo-time.png" className="mx-auto mt-[5vh]" style={{zIndex: 10000}} width={400} height={300} alt="logo" />
             </div>
             <svg
                 className="absolute top-[60vh] lg:top-[40vh] w-full"

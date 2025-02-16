@@ -15,7 +15,7 @@ export default function LeaderboardPage() {
     }, []);
 
     return (
-        <>
+        <div className="mt-[80px]">
             <h1 className="text-white text-center text-3xl py-2">Leaderboard</h1>
             <div className="w-100 px-10">
                 <table className="table-auto overflow-x-auto w-full">
@@ -35,6 +35,6 @@ export default function LeaderboardPage() {
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     );
 }
