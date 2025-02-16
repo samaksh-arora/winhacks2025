@@ -132,6 +132,15 @@ def water_to_points(amount):
 
     return amount * int(action[0])
 
+def get_points(user_id):
+    c.execute("SELECT points FROM users WHERE id=?", (user_id,))
+    points = c.fetchone()
+
+    if points is None:
+        return {"status": "error", "message": "Invalid user", "relogin": True}
+    
+    return {"status": "success", "points": points[0]}
+
 def increase_points(user_id, amount):
     c.execute("SELECT points FROM users WHERE id=?", (user_id,))
     points = c.fetchone()

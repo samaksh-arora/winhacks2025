@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, redirect, url_for, session
+from flask import Flask, jsonify, request, redirect, url_for, session, make_response
 from flask_cors import CORS
 from database import *
 from flask_cors import CORS
@@ -10,8 +10,6 @@ cors = CORS(app)
 
 create_db()
 
-staticPoints = 0
-
 @app.route("/api/login", methods=['POST'])
 def login():
     data = request.get_json()
@@ -21,11 +19,20 @@ def login():
     if result["status"] == "success":
         token = generate_token(app, result["id"])
         session['token'] = token
-        return jsonify({
+        response = make_response(jsonify({
             "status": "success",
             "message": "Welcome to DRINKUP!",
             "token": token
-        }), 200
+        }), 200)
+        response.set_cookie(
+            "token", 
+            token, 
+            httponly=True, 
+            secure=True,  # Set to False if using HTTP (not recommended)
+            samesite="Lax",
+        )
+
+        return response
     else:
         return jsonify(result), 401
 
@@ -40,22 +47,36 @@ def register():
     token = generate_token(app, result["id"])
     session['token'] = token
 
-    return jsonify(result), 200
+    response = make_response(jsonify(result), 200)
+    response.set_cookie(
+        "token", 
+        token, 
+        httponly=True, 
+        secure=True,  # Set to False if using HTTP (not recommended)
+        samesite="Lax",
+    )
+
+    return response
 
 @app.route("/api/get-points",methods=['GET'])
 def getPoints():
-    return jsonify({"status": "success", "message": "You drank up!", "points": staticPoints})
+    if 'token' not in session:
+        return jsonify({"status": "error", "message": "Not logged in"}), 401
+    token_data = decode_token(app, session['token'])
+    if token_data["status"] == "error":
+        return jsonify(token_data), 403
+
+    return jsonify(get_points(token_data["user_id"]))
 
 @app.route("/api/drink", methods=['POST'])
 def drink():
-    global staticPoints
+    if 'token' not in session:
+        return jsonify({"status": "error", "message": "Can't drink, not logged in"}), 401
     data = request.get_json()
     amount = data.get("amount")
-    staticPoints = staticPoints + amount
-    return jsonify({"status": "success", "message": "You drank up!", "points": staticPoints})
-    # token_data = decode_token(app, session['token'])
-    # if token_data["status"] == "error":
-    #     return jsonify(token_data), 403
+    token_data = decode_token(app, session['token'])
+    if token_data["status"] == "error":
+        return jsonify(token_data), 403
 
-    # return jsonify(drink_water(token_data["user_id"], amount)), 
+    return jsonify(drink_water(token_data["user_id"], amount)), 
     

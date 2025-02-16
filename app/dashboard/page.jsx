@@ -16,7 +16,10 @@ export default function DashboardPage() {
                 'Content-Type': 'application/json'
               }
         }).then(response => response.json())
-        .then(data=>{
+        .then(data => {
+            if (data.status !== "success") {
+                // Handle error.
+            }
             console.log("Points from backend: " + data.points)
             setPoints(data.points);
         })
