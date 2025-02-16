@@ -6,7 +6,9 @@ export default function LeaderboardPage() {
     const [leaderboard, setLeaderboard] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5328/api/leaderboard")
+        fetch("http://localhost:5328/api/leaderboard", {
+            credentials: 'include',
+        })
             .then((response) => response.json())
             .then((data) => setLeaderboard(data.leaderboard))
             .catch((error) => console.error("Error fetching leaderboard:", error));

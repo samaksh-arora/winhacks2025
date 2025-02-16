@@ -23,6 +23,7 @@ export default function RegisterPage() {
         // Proceed with API request
         fetch('http://localhost:5328/api/register', {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },

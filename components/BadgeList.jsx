@@ -6,7 +6,7 @@ export default function BadgeList({points}) {
     const [badges, setBadges] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5328/api/badges")
+        fetch("http://localhost:5328/api/badges", {credentials: 'include',})
             .then((response) => response.json())
             .then((data) => setBadges(data.badges))
             .catch((error) => console.error("Error fetching badges:", error));

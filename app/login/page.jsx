@@ -12,6 +12,7 @@ export default function LoginPage() {
 
         fetch('http://localhost:5328/api/login', {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },

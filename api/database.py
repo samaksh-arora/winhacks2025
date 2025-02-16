@@ -111,7 +111,7 @@ def check_user(email, password):
     else:
         return {"status": "error", "message": "Incorrect password", "id": id}
 
-def get_minutes_since_last_action(user_id, action_type):
+def get_minutes_since_last_action(user_id, action_type = 1):
     c.execute("SELECT date FROM actions WHERE user_id = ? AND type = ?", (user_id, action_type))
     latest_action = c.fetchone()
 
@@ -131,6 +131,15 @@ def water_to_points(amount):
         return amount # Default to 1 point per amount.
 
     return amount * int(action[0])
+
+def get_points(user_id):
+    c.execute("SELECT points FROM users WHERE id=?", (user_id,))
+    points = c.fetchone()
+
+    if points is None:
+        return {"status": "error", "message": "Invalid user", "relogin": True}
+    
+    return {"status": "success", "points": points[0]}
 
 def increase_points(user_id, amount):
     c.execute("SELECT points FROM users WHERE id=?", (user_id,))
