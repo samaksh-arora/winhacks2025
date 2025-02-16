@@ -1,22 +1,25 @@
 from flask import Flask, jsonify, request, redirect, url_for, session
+from flask_cors import CORS
 from database import *
 from auth import *
 
 app = Flask(__name__)
 app.secret_key ='amherstburgers'
+cors = CORS(app) # allow CORS for all domains on all routes.
 
 create_db()
 
 @app.route("/api/login", methods=['POST'])
 def login():
-    email = request.form['email']
-    password = request.form['password']
-
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
     result = check_user(email, password)
     if result["status"] == "success":
         token = generate_token(app, result["id"])
         session['token'] = token
         return jsonify({
+            "status": "success",
             "message": "Welcome to DRINKUP!",
             "token": token
         }), 200
@@ -25,14 +28,14 @@ def login():
 
 @app.route("/api/register", methods=['POST'])
 def register():
-    name = request.form['name']
-    email = request.form['email']
-    password = request.form['password']
-
-    token = generate_token()
-    session['token'] = token
+    data = request.get_json()
+    name = data.get("name")
+    email = data.get("email")
+    password = data.get("password")
 
     result = create_user(name, email, password)
+    token = generate_token(app, result["id"])
+    session['token'] = token
 
     return jsonify(result), 200
 
