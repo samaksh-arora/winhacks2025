@@ -68,7 +68,8 @@ export default function WaterBottle({fill, setFill, multiplier, setMultiplier, s
                 {option=="Custom (Enter ml)" && 
                 <input type="number" placeholder='ml' value={customMl} min="1" max="1000" onChange={(e) => setCustomMl(parseInt(e.target.value))}></input>
                 }
-                <button className="text-2xl text-white border border-black p-2 rounded-md bg-black">Drink</button>
+                <br></br>
+                <button className="text-2xl textShadow text-white border border-black p-2 rounded-md bg-[var(--sky)]">Drink</button>
         </div>
         </form>
     )
