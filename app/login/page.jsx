@@ -1,5 +1,5 @@
 "use client"
-
+import Link from 'next/link'
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -23,6 +23,7 @@ export default function LoginPage() {
         }).then(response => response.json())
         .then(data => {
             if (data.status === "success") {
+                console.log("Logged in Successful")
                 router.push('/dashboard');
                 router.refresh();
             } else {
@@ -49,6 +50,7 @@ return (
                 <label className="textShadow text-xl">Password</label>
                 <input type="password" className="border-2 border-black text-xl text-black" onChange={(e) => (setPassword(e.target.value))} required></input>
                 <br></br>
+                <Link className="textShadow text-md" href="/dashboard">Don't Have an account? Register Now!</Link>
                 <br></br>
                 <div className="flex justify-center">
                     <button className='bg-[var(--background)] rounded-xl p-3'>Submit</button>

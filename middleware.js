@@ -15,8 +15,8 @@ export function middleware(request) {
   });
 
   const retVal = token.then(isValid => {
-    if(isAccountPath && isValid) return NextResponse.rewrite(new URL('/', request.url), { status: 303 });
-    if (!isAccountPath && !isValid && path !== '/') return NextResponse.rewrite(new URL('/login', request.url), { status: 303 });
+    if(isAccountPath && isValid) return NextResponse.redirect(new URL('/', request.url), { status: 303 });
+    if (!isAccountPath && !isValid && path !== '/') return NextResponse.redirect(new URL('/login', request.url), { status: 303 });
   });
 
   return retVal;
@@ -36,6 +36,10 @@ async function isTokenValid(request) {
 
 export const config = {
   matcher: [
+<<<<<<< HEAD
     '/',
+=======
+    
+>>>>>>> dcf77d7 (added dynamic points, multiplier, currentMl)
   ]
 };

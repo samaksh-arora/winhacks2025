@@ -14,7 +14,7 @@ export default function RootLayout({children}) {
     <html lang="en">
       <body className={inter.variable}>
         <Navbar />
-        <main className="flex flex-col place-center justify-between mt-[88px]">
+        <main className="flex flex-col place-center justify-between">
           {children}
         </main>
       </body>

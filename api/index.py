@@ -10,6 +10,9 @@ cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000", "support
 
 create_db()
 
+staticPoints = 0
+multiplier = 1
+
 @app.route("/api/login", methods=['POST'])
 def login():
     data = request.get_json()
@@ -56,9 +59,9 @@ def register():
     )
 
     return response
-
 @app.route("/api/get-points",methods=['GET'])
 def getPoints():
+    return jsonify({"points":staticPoints,"multiplier":multiplier})
     token = request.cookies.get('token')
 
     if token is None:
@@ -71,6 +74,15 @@ def getPoints():
 
 @app.route("/api/drink", methods=['POST'])
 def drink():
+    global staticPoints
+    global multiplier
+    data = request.get_json()
+    amount = data.get('amount')
+    test = data.get('multiplier')
+    print(test)
+    staticPoints = round(round(staticPoints + amount) / 50) * 50
+    multiplier = test
+    return jsonify({"status": "success"}),200
     token = request.cookies.get('token')
     if token is None:
         return jsonify({"status": "error", "message": "Not logged in"}), 401

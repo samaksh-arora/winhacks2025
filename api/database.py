@@ -20,7 +20,9 @@ def create_db():
                     name TEXT NOT NULL,
                     email TEXT NOT NULL UNIQUE,
                     password TEXT NOT NULL,
-                    points INTEGER DEFAULT 0)""")
+                    points INTEGER DEFAULT 0,
+                    currentMl INTEGER DEFAULT 0,
+                    multiplier INTEGER DEFAULT 1)""")
         
         c.execute("""INSERT INTO users VALUES (1, "admin", "admin@gmail.com", "epicness", 50000)""")
         c.execute("""INSERT INTO users VALUES (2, "john_doe", "john.doe@example.com", "password123", 350)""")
@@ -90,6 +92,8 @@ def create_db():
         conn = sqlite3.connect(DATABASE, check_same_thread=False)
         c = conn.cursor()
         print("Database already exists")
+        conn = sqlite3.connect(DATABASE, check_same_thread=False)
+        c = conn.cursor()
 
 # Create a hash of a given password.
 def hash_password(password):
@@ -154,7 +158,24 @@ def get_points(user_id):
         return {"status": "error", "message": "Invalid user", "relogin": True}
     
     return {"status": "success", "points": points[0]}
+def get_currentMl(user_id):
+    c.execute("SELECT currentMl FROM users WHERE id=?", (user_id,))
+    currentMl = c.fetchone()
 
+    return {"status": "success", "currentMl": currentMl[0]}
+def get_multiplier(user_id):
+    c.execute("SELECT multiplier FROM users WHERE id=?", (user_id,))
+    multiplier = c.fetchone()
+
+    return {"status": "success", "multiplier": multiplier[0]}
+def set_currentMl(currentMl,user_id):
+    c.execute("UPDATE users SET currentMl=? WHERE id=?", (currentMl, user_id,))
+
+    return {"status": "success"}
+def set_multiplier(multiplier,user_id):
+    c.execute("UPDATE users SET multiplier=? WHERE id=?", (multiplier, user_id,))
+
+    return {"status": "success"}
 def increase_points(user_id, amount):
     c.execute("SELECT points FROM users WHERE id=?", (user_id,))
     points = c.fetchone()
