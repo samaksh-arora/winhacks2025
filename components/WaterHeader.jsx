@@ -1,4 +1,5 @@
 "use client"
+import Image from "next/image"
 
 export default function WaterHeader({title}) {
 
@@ -6,9 +7,7 @@ export default function WaterHeader({title}) {
         <div className="hero relative w-screen h-[100vh]">
             <div className="absolute h-[40vh] top-0 w-screen" style={{background: "var(--sky"}}>
                 {title && (
-                    <div className="absolute top-3/4 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1 className="text-white text-4xl font-bold">{title}</h1>
-                    </div>
+                    <Image src="/logo-time.png" width={128} height={100} alt="logo" />
                 )}
             </div>
             <svg

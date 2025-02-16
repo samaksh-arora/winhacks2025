@@ -37,9 +37,5 @@ async function isTokenValid(request) {
 export const config = {
   matcher: [
     '/',
-    '/login',
-    '/register',
-    '/dashboard',
-    '/leaderboard'
   ]
 };

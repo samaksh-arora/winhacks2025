@@ -117,6 +117,7 @@ def get_minutes_since_last_action(user_id, action_type = 1):
 
     if latest_action:
         date = datetime.datetime.strptime(latest_action[0], "%Y-%m-%d %H:%M:%S")
+        date = date.replace(tzinfo=datetime.timezone.utc)
         now = datetime.datetime.now(datetime.timezone.utc)
         diff = now - date
         return diff.total_seconds() // 60

@@ -10,11 +10,7 @@ export default function Navbar() {
   const removeNav = ["/login", "/register"]
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -29,7 +25,7 @@ export default function Navbar() {
     {!(removeNav.includes(pathname))&& 
     <nav
       className={`fixed top-0 left-0 w-full p-3 transition-all duration-300 ease-in-out ${
-        isScrolled ? 'bg-[var(--background)]' : 'bg-[rgba(0,0,0,0)]'
+        isScrolled ? 'bg-[var(--background)]' : 'bg-[var(--sky)]]'
       }`}
         style={{ zIndex: "1000"}}>
       <div className="flex justify-between items-center">
