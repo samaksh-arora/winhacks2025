@@ -8,7 +8,8 @@ conn = None
 c = None
 
 def create_db():
-    conn = sqlite3.connect(DATABASE)
+    global conn, c
+    conn = sqlite3.connect(DATABASE, check_same_thread=False)
     c = conn.cursor()
     if not os.path.exists(DATABASE):
         print(f"Creating database at location {DATABASE}")
@@ -51,8 +52,10 @@ def create_user(name, email, password):
     hashed = hash_password(password)
 
     c.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, hashed))
-
+    user_id = c.lastrowid
     conn.commit()
+
+    return {"status": "success", "message": "Welcome to DRINKUP!", "id": user_id}
 
 # Checks if the user exists (for login purposes).
 def check_user(email, password):

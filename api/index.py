@@ -16,9 +16,10 @@ def login():
     password = data.get("password")
     result = check_user(email, password)
     if result["status"] == "success":
-        token = generate_token()
+        token = generate_token(app, result["id"])
         session['token'] = token
         return jsonify({
+            "status": "success",
             "message": "Welcome to DRINKUP!",
             "token": token
         }), 200
@@ -27,14 +28,14 @@ def login():
 
 @app.route("/api/register", methods=['POST'])
 def register():
-    name = request.form['name']
-    email = request.form['email']
-    password = request.form['password']
-
-    token = generate_token()
-    session['token'] = token
+    data = request.get_json()
+    name = data.get("name")
+    email = data.get("email")
+    password = data.get("password")
 
     result = create_user(name, email, password)
+    token = generate_token(app, result["id"])
+    session['token'] = token
 
     return jsonify(result), 200
 

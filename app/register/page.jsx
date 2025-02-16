@@ -19,8 +19,6 @@ export default function RegisterPage() {
             setErrorMessage("Passwords do not match. Please try again.");
             return;
         }
-        router.push('/dashboard');
-        router.refresh();
 
         // Proceed with API request
         fetch('http://localhost:5328/api/register', {
@@ -33,15 +31,18 @@ export default function RegisterPage() {
                 email: email,
                 password: password,
             })
+        }).then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                router.push('/dashboard');
+                router.refresh();
+            } else {
+                setErrorMessage(data.message);
+            }
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                setErrorMessage(""); // Clear error message on success
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        .catch(error => {
+            console.error('Error:', error);
+        });
     };
 
     return (
@@ -72,7 +73,7 @@ export default function RegisterPage() {
 
                     {/* Error Message */}
                     {errorMessage && <p className="text-red-500 mt-5">{errorMessage}</p>}
-                    <br/>
+                    <br />
 
                     <div className="flex justify-center">
                         <button className="bg-[var(--background)] rounded-xl p-3">Submit</button>
