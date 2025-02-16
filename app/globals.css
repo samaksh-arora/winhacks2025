@@ -31,3 +31,14 @@ body {
   text-shadow: 4px 0 #000, -4px 0 #000, 0 4px #000, 0 -4px #000,
                2px 2px #000, -2px -2px #000, 2px -2px #000, -2px 2px #000;
 }
+/* Hide number input arrows in Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide number input arrows in Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
