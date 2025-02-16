@@ -3,6 +3,7 @@ import { useState } from 'react'
 export default function WaterBottle({fill, setFill, multiplier, setMultiplier, setCheck}){
     const [option, setOption] = useState("Cup (250ml)")
     const [customMl, setCustomMl] = useState(0)
+    const [showLevelUp, setShowLevelUp] = useState(false);
     const options = {
         "Cup (250ml)": "cup.png",
         "Bottle (500ml)": "water.png",
@@ -32,7 +33,11 @@ export default function WaterBottle({fill, setFill, multiplier, setMultiplier, s
             var existingMl = (fill/100)*1000*multiplier
             var originalModifierPts = ((1000*multiplier) - existingMl)*multiplier
             setFill(100);
-            const remainingMl = (ml - ((1000*multiplier) - existingMl))
+            const remainingMl = (ml - ((1000*multiplier) - existingMl));
+            setShowLevelUp(true);
+            setTimeout(() => {
+                setShowLevelUp(false);
+            }, 3000);
             setTimeout(() => {
                 setFill((remainingMl/(1000*(multiplier+1)))*100)
             }, "1500");
@@ -72,6 +77,11 @@ export default function WaterBottle({fill, setFill, multiplier, setMultiplier, s
                 <br></br>
                 <button className="text-2xl textShadow text-white border border-black p-2 rounded-md bg-[var(--sky)]">Drink</button>
         </div>
+        {showLevelUp && (
+            <div className="fixed top-[10vh] left-[40vw] transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white text-xl font-bold py-3 px-6 rounded-lg shadow-lg animate-bounce">
+                🎉 Congratulations! You leveled up! 🚀
+            </div>
+        )}
         </form>
     )
 }
